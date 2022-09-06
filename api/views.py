@@ -9,6 +9,8 @@ from .serializers import CoderSerializer
 # for converting serializers into json 
 from rest_framework.renderers import JSONRenderer
 
+from api import serializers
+
 # from api import serializers
 
 # Create your views here.
@@ -21,7 +23,6 @@ def coder_details(request,pk):
     # print(coder)
     # convert model into serializers
 
-    # serializer = CoderSerializer(coder,many=True)
     serializer = CoderSerializer(coder)
 
     # print(serializer)
@@ -33,5 +34,22 @@ def coder_details(request,pk):
     # print(json_Data)
 
     return HttpResponse(json_Data,content_type='application/json')
+
+
+def coder_list(request):
+    # get the model data
+    coder = Coder.objects.all()
+
+    # convert model into serializers
+
+    serializer = CoderSerializer(coder,many=True)
+
+    # convert serializer into the json using JSONRenderer
+    
+    json_Data = JSONRenderer().render(serializer.data)
+
+    return HttpResponse(json_Data,content_type='application/json')
+
+
 
 

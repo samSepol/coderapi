@@ -8,3 +8,6 @@ class Coder(models.Model):
     domain=models.CharField(max_length=100)
     company=models.CharField(max_length=100)
     salary=models.IntegerField()
+
+
+    
