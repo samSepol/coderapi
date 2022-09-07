@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 # import models 
 from .models import Coder
 
@@ -35,6 +35,9 @@ def coder_details(request,pk):
 
     return HttpResponse(json_Data,content_type='application/json')
 
+    # when data is dict we dont need to specify the safe argument
+    # return JsonResponse(serializer.data)
+
 
 def coder_list(request):
     # get the model data
@@ -49,6 +52,10 @@ def coder_list(request):
     json_Data = JSONRenderer().render(serializer.data)
 
     return HttpResponse(json_Data,content_type='application/json')
+
+    # use JsonResponse to render the data 
+                                                                                                                                                                                      
+    # return JsonResponse(serializer.data,safe=False)
 
 
 
