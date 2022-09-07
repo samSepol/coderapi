@@ -35,3 +35,5 @@ def coder_details(request,pk):
     return HttpResponse(json_Data,content_type='application/json')
 
 
+
+
