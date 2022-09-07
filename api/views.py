@@ -1,5 +1,10 @@
+import io
+from urllib import response
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
+from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
+
 # import models 
 from .models import Coder
 
@@ -56,6 +61,35 @@ def coder_list(request):
     # use JsonResponse to render the data 
                                                                                                                                                                                       
     # return JsonResponse(serializer.data,safe=False)
+
+
+@csrf_exempt
+def create_coder(request):
+
+    if request.method =='POST':
+        # get the client data
+        json_data=request.body
+
+        # convert json_data to stream 
+        stream = io.BytesIO(json_data )
+
+        # convert this stream to python data 
+
+        data = JSONParser().parse(stream)
+
+        # convert pythondata to complex data 
+        serializer = CoderSerializer(data = data)
+
+        # validation of serializers 
+
+        if serializer.is_valid():
+            serializer.save()
+            response = {'msg':'Data created'}
+            json_data = JSONRenderer().render(response)
+            return HttpResponse(json_data,content_type='application/json')
+            
+        json_data = JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
 
 
 
